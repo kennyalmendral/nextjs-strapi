@@ -12,6 +12,7 @@ import moment from 'moment'
 
 import Layout from '@/components/Layout'
 import Modal from '@/components/Modal'
+import ImageUpload from '@/components/ImageUpload'
 
 import styles from '@/styles/Form.module.css'
 
@@ -66,6 +67,14 @@ export default function EditEvent({ event }) {
       ...values,
       [name]: value
     })
+  }
+
+  const imageUploaded = async (e) => {
+    const res = await fetch(`${API_URL}/events/${event.id}`)
+    const data = await res.json()
+
+    setImagePreview(data.image.formats.thumbnail.url)
+    setShowModal(false)
   }
   
   return (
@@ -132,7 +141,7 @@ export default function EditEvent({ event }) {
       </div>
 
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        Image Upload
+        <ImageUpload eventId={event.id} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   )
