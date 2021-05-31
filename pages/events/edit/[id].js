@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -11,7 +10,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import moment from 'moment'
 
-import Layout from '@/components/layout'
+import Layout from '@/components/Layout'
+import Modal from '@/components/Modal'
 
 import styles from '@/styles/Form.module.css'
 
@@ -30,6 +30,7 @@ export default function EditEvent({ event }) {
     description: event.description
   })
 
+  const [showModal, setShowModal] = useState(false)
   const [imagePreview, setImagePreview] = useState(event.image ? event.image.formats.thumbnail.url : null)
   
   const updateEvent = async (e) => {
@@ -127,8 +128,12 @@ export default function EditEvent({ event }) {
       )}
 
       <div>
-        <button className="btn-secondary"><FaImage /> Set Image</button>
+        <button className="btn-secondary" onClick={() => setShowModal(true)}><FaImage /> Set Image</button>
       </div>
+
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        Image Upload
+      </Modal>
     </Layout>
   )
 }
