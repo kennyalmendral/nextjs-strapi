@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import qs from 'qs'
 
-import Layout from '@/components/layout'
+import Layout from '@/components/Layout'
 import EventItem from '@/components/EventItem'
 
 import { API_URL } from '@/config/index'

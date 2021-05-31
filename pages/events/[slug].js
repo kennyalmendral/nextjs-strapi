@@ -7,7 +7,7 @@ import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Layout from '@/components/layout'
+import Layout from '@/components/Layout'
 
 import { SITE_NAME, API_URL } from '@/config/index'
 
