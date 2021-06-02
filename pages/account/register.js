@@ -23,6 +23,8 @@ export default function Register() {
 
   const { register, error } = useContext(AuthContext)
 
+  useEffect(() => error && toast.error(error))
+
   const registerUser = e => {
     e.preventDefault()
 
