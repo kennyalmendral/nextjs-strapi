@@ -7,6 +7,8 @@ import { FaUser } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import AuthContext from '@/context/AuthContext'
+
 import Layout from '@/components/Layout'
 
 import styles from '@/styles/Auth.module.css'
@@ -17,10 +19,12 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const login = e => {
+  const { login, error } = useContext(AuthContext)
+
+  const loginUser = e => {
     e.preventDefault()
 
-    console.log(email, password)
+    login({ email, password })
   }
 
   return (
@@ -30,7 +34,7 @@ export default function Login() {
 
         <ToastContainer />
 
-        <form onSubmit={login}>
+        <form onSubmit={loginUser}>
           <div>
             <label htmlFor="email">Email Address</label>
             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />

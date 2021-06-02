@@ -7,6 +7,8 @@ import { FaUser } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import AuthContext from '@/context/AuthContext'
+
 import Layout from '@/components/Layout'
 
 import styles from '@/styles/Auth.module.css'
@@ -19,7 +21,9 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
-  const register = e => {
+  const { register, error } = useContext(AuthContext)
+
+  const registerUser = e => {
     e.preventDefault()
 
     if (password !== passwordConfirmation) {
@@ -28,7 +32,7 @@ export default function Register() {
       return
     }
 
-    console.log(username, email, password)
+    register({ username, email, password })
   }
 
   return (
@@ -38,7 +42,7 @@ export default function Register() {
 
         <ToastContainer />
 
-        <form onSubmit={register}>
+        <form onSubmit={registerUser}>
           <div>
             <label htmlFor="username">Username</label>
             <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
