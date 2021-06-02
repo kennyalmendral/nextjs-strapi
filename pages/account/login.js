@@ -21,6 +21,8 @@ export default function Login() {
 
   const { login, error } = useContext(AuthContext)
 
+  useEffect(() => error && toast.error(error))
+
   const loginUser = e => {
     e.preventDefault()
 
