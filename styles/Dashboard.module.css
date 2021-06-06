@@ -1,0 +1,28 @@
+.dash h1 span {
+  font-size: 20px;
+  color: #777;
+  margin-left: 10px;
+}
+
+.dash h3 {
+  font-size: 25px;
+  color: red;
+}
+
+.event {
+  display: flex;
+}
+
+.event h4 {
+  margin-bottom: 10px;
+  flex: 2;
+}
+
+.edit,
+.delete {
+  margin: 10px;
+}
+
+.delete {
+  color: red;
+}
