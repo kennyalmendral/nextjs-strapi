@@ -14,11 +14,13 @@ import Layout from '@/components/Layout'
 import Modal from '@/components/Modal'
 import ImageUpload from '@/components/ImageUpload'
 
+import { parseCookies } from '@/helpers/index'
+
 import styles from '@/styles/Form.module.css'
 
 import { API_URL } from '@/config/index'
 
-export default function EditEvent({ event }) {
+export default function EditEvent({ event, token }) {
   const router = useRouter()
   
   const [values, setValues] = useState({
@@ -46,12 +48,18 @@ export default function EditEvent({ event }) {
     const res = await fetch(`${API_URL}/events/${event.id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(values)
     })
     
     if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        toast.error('Unauthorized')
+        return
+      }
+
       toast.error('Something went wrong.')
     } else {
       const event = await res.json()
@@ -141,7 +149,7 @@ export default function EditEvent({ event }) {
       </div>
 
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <ImageUpload eventId={event.id} imageUploaded={imageUploaded} />
+        <ImageUpload eventId={event.id} imageUploaded={imageUploaded} token={token} />
       </Modal>
     </Layout>
   )
@@ -151,11 +159,12 @@ export async function getServerSideProps({ params: { id }, req }) {
   const res = await fetch(`${API_URL}/events/${id}`)
   const event = await res.json()
 
-  console.log(req.headers.cookie)
+  const { token } = parseCookies(req)
 
   return {
     props: {
-      event
+      event,
+      token
     }
   }
 }

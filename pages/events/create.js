@@ -8,12 +8,13 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import Layout from '@/components/Layout'
 
+import { parseCookies } from '@/helpers/index'
+
 import styles from '@/styles/Form.module.css'
 
 import { API_URL } from '@/config/index'
 
-
-export default function CreateEvent() {
+export default function CreateEvent({ token }) {
   const router = useRouter()
 
   const [values, setValues] = useState({
@@ -38,12 +39,18 @@ export default function CreateEvent() {
     const res = await fetch(`${API_URL}/events`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(values)
     })
 
     if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        toast.error('Token not found.')
+        return
+      }
+
       toast.error('Something went wrong.')
     } else {
       const event = await res.json()
@@ -111,4 +118,14 @@ export default function CreateEvent() {
       </form>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+
+  return {
+    props: {
+      token
+    }
+  }
 }
