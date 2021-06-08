@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from '@/components/Layout'
+import EventMap from '@/components/EventMap'
 
 import { SITE_NAME, API_URL } from '@/config/index'
 
@@ -39,6 +40,8 @@ export default function Event({ event }) {
 
         <h3>Venue: {event.venue}</h3>
         <p>{event.address}</p>
+
+        <EventMap event={event} />
 
         <Link href="/events">
           <a className={styles.back}>&laquo; Go back</a>
